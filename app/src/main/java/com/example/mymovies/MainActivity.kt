@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -68,9 +69,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showSystemUi = true)
 @Composable
 fun MediaList() {
- LazyColumn(
+ LazyRow(
   contentPadding = PaddingValues(4.dp),
-  verticalArrangement = Arrangement.spacedBy(4.dp),
+  horizontalArrangement = Arrangement.spacedBy(4.dp),
   content = {
   items(getMedia()) { item ->
    MediaListItem(item);
@@ -83,11 +84,12 @@ fun MediaList() {
 //@Preview(showSystemUi = true)
 @Composable
 fun MediaListItem(item: MediaItem) {
- Column() {
+ Column(
+  modifier = Modifier.width(200.dp)
+ ) {
   Box(
    modifier = Modifier
     .height(200.dp)
-    .fillMaxWidth(),
 //   contentAlignment = Alignment.Center
   ) {
    AsyncImage(
