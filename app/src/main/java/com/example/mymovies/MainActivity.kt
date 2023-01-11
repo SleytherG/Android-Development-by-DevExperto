@@ -40,7 +40,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
  Text(text = "Hello $name!", modifier = modifier)
 }
 
-//@Preview(showSystemUi = true)
+@Preview(showSystemUi = true)
 @Composable
 fun MediaItem() {
  Column() {
@@ -49,15 +49,23 @@ fun MediaItem() {
     .height(200.dp)
     .fillMaxWidth()
     .background(color = Color.Red)
-    .align(Alignment.CenterHorizontally)
   ) {
 
   }
-  Text("Title 1")
+  Box(
+   modifier = Modifier
+    .fillMaxWidth()
+    .background(MaterialTheme.colors.secondary)
+    .padding(16.dp),
+   contentAlignment = Alignment.Center
+  ) {
+   Text("Title 1")
+
+  }
  }
 }
 
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
 fun ButtonText() {
  Box(
