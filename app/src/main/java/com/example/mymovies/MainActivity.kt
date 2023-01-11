@@ -13,9 +13,21 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.example.mymovies.ui.theme.MyMoviesTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,7 +49,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
- Text(text = "Hello $name!", modifier = modifier)
+ Text(
+  text = "Hello $name!",
+  modifier = modifier)
 }
 
 @Preview(showSystemUi = true)
@@ -59,7 +73,10 @@ fun MediaItem() {
     .padding(16.dp),
    contentAlignment = Alignment.Center
   ) {
-   Text("Title 1")
+   Text(
+    text = "Title 1",
+    style = MaterialTheme.typography.h6
+   )
 
   }
  }
@@ -74,11 +91,16 @@ fun ButtonText() {
  ) {
   Text(
    text = "Hello World",
-   modifier = Modifier
-    .clickable { /*TODO*/ }
-    .background(Color.Cyan)
-    .border(width = 2.dp, color = Color.Blue)
-    .padding(horizontal = 16.dp, vertical = 8.dp)
+   maxLines = 1,
+   softWrap = false,
+   overflow = TextOverflow.Ellipsis,
+   style = MaterialTheme.typography.h4.copy(
+    shadow = Shadow(
+     offset = Offset(5f, 5f),
+     blurRadius = 5f,
+     color = Color.Black.copy(alpha = 0.5f)
+    )
+   )
   )
  }
 }
