@@ -1,41 +1,29 @@
 package com.example.mymovies
 
 import android.os.Bundle
-import android.view.RoundedCorner
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlayCircleOutline
-import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import coil.transform.CircleCropTransformation
 import com.example.mymovies.ui.theme.MyMoviesTheme
 
 class MainActivity : ComponentActivity() {
@@ -49,7 +37,11 @@ class MainActivity : ComponentActivity() {
     ) {
 //     ButtonText();
 //     MediaItem();
-     MediaList();
+//     MediaList();
+     val ( value, onValueChange ) = rememberSaveable { mutableStateOf("") };
+     StateSample(
+      value = value,
+      onValueChange = onValueChange);
     }
    }
   }
@@ -64,20 +56,52 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
  )
 }
 
+//@Preview(showSystemUi = true, device = Devices.PIXEL_4)
+@Composable
+fun StateSample(value: String, onValueChange: (String) -> Unit) {
+ Column(
+  modifier = Modifier
+   .fillMaxSize()
+   .padding(64.dp),
+  verticalArrangement = Arrangement.Center,
+
+  ) {
+  TextField(
+   value = value,
+   onValueChange = { onValueChange(it) },
+   modifier = Modifier.fillMaxWidth()
+  )
+  Text(
+   text = value,
+   modifier = Modifier
+    .fillMaxWidth()
+    .background(Color.Yellow)
+    .padding(8.dp)
+  )
+  Button(
+   onClick = { onValueChange("") },
+   modifier = Modifier.fillMaxWidth(),
+   enabled = value.isNotEmpty()
+  ) {
+   Text(text = "Clear")
+  }
+ }
+}
+
 @OptIn(ExperimentalFoundationApi::class)
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
 fun MediaList() {
  LazyVerticalGrid(
   contentPadding = PaddingValues(2.dp),
   cells = GridCells.Adaptive(200.dp),
   content = {
-  items(getMedia()) { item ->
-   MediaListItem(item, modifier = Modifier.padding(2.dp));
-  }
- },
+   items(getMedia()) { item ->
+    MediaListItem(item, modifier = Modifier.padding(2.dp));
+   }
+  },
 
- )
+  )
 }
 
 //@Preview(showSystemUi = true)
