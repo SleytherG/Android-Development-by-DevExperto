@@ -9,6 +9,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -20,7 +22,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.PlayCircleOutline
 import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +49,8 @@ class MainActivity : ComponentActivity() {
      color = MaterialTheme.colors.background
     ) {
 //     ButtonText();
-     MediaItem();
+//     MediaItem();
+     MediaList();
     }
    }
   }
@@ -64,20 +67,35 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 @Preview(showSystemUi = true)
 @Composable
-fun MediaItem() {
+fun MediaList() {
+ LazyColumn(
+  contentPadding = PaddingValues(4.dp),
+  verticalArrangement = Arrangement.spacedBy(4.dp),
+  content = {
+  items(getMedia()) { item ->
+   MediaListItem(item);
+  }
+ },
+
+ )
+}
+
+//@Preview(showSystemUi = true)
+@Composable
+fun MediaListItem(item: MediaItem) {
  Column() {
   Box(
    modifier = Modifier
     .height(200.dp)
     .fillMaxWidth(),
-   contentAlignment = Alignment.Center
+//   contentAlignment = Alignment.Center
   ) {
    AsyncImage(
-    model = "https://picsum.photos/400/400",
+    model = item.thumb,
     contentDescription = null,
     modifier = Modifier.fillMaxSize(),
     contentScale = ContentScale.Crop
-    )
+   )
 //   Image(
 //    painter = rememberImagePainter(data = "https://picsum.photos/400/400", builder = {
 //     crossfade(true)
@@ -86,12 +104,16 @@ fun MediaItem() {
 //    modifier = Modifier.fillMaxSize(),
 //    contentScale = ContentScale.Crop
 //   );
-   Icon(
-    imageVector = Icons.Default.PlayCircleOutline,
-    contentDescription = null,
-    modifier = Modifier.size(92.dp),
-    tint = Color.White,
-   )
+   if (item.type == MediaItem.Type.VIDEO) {
+    Icon(
+     imageVector = Icons.Default.PlayCircleOutline,
+     contentDescription = null,
+     modifier = Modifier
+      .size(92.dp)
+      .align(Alignment.Center),
+     tint = Color.White,
+    )
+   }
   }
   Box(
    modifier = Modifier
@@ -101,7 +123,7 @@ fun MediaItem() {
    contentAlignment = Alignment.Center
   ) {
    Text(
-    text = "Title 1",
+    text = item.title,
     style = MaterialTheme.typography.h6
    )
 
