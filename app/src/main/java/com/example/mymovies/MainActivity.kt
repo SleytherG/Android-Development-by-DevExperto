@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.RoundedCorner
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -66,15 +64,16 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
  )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Preview(showSystemUi = true)
 @Composable
 fun MediaList() {
- LazyRow(
-  contentPadding = PaddingValues(4.dp),
-  horizontalArrangement = Arrangement.spacedBy(4.dp),
+ LazyVerticalGrid(
+  contentPadding = PaddingValues(2.dp),
+  cells = GridCells.Adaptive(200.dp),
   content = {
   items(getMedia()) { item ->
-   MediaListItem(item);
+   MediaListItem(item, modifier = Modifier.padding(2.dp));
   }
  },
 
@@ -83,13 +82,14 @@ fun MediaList() {
 
 //@Preview(showSystemUi = true)
 @Composable
-fun MediaListItem(item: MediaItem) {
+fun MediaListItem(item: MediaItem, modifier: Modifier = Modifier) {
  Column(
-  modifier = Modifier.width(200.dp)
+  modifier = modifier
  ) {
   Box(
    modifier = Modifier
     .height(200.dp)
+    .fillMaxWidth(),
 //   contentAlignment = Alignment.Center
   ) {
    AsyncImage(
